@@ -5,15 +5,15 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for reporting. Before you start, [docs/TROUBLESHOOTING.md](https://github.com/ayozetr/bloodborne_linux/blob/main/docs/TROUBLESHOOTING.md) covers the common problems.
+        Thanks for reporting. Before you start, the README's [Getting started](https://github.com/johnnygentoo/gvport#getting-started) covers preparing the game.
 
-        Only your own dump of the game with the 1.09 update is supported. Do not ask for or link game files.
+        Only your own dump of GUNDAM VERSUS (CUSA08790) with the 1.13 update is supported. Do not ask for, link or attach game files or saves ([LEGAL.md](https://github.com/johnnygentoo/gvport/blob/HEAD/LEGAL.md)).
   - type: input
     id: version
     attributes:
       label: Version
       description: The launcher's **About** page shows it.
-      placeholder: 0.51-linux.2
+      placeholder: "0.1"
     validations:
       required: true
   - type: dropdown
@@ -52,24 +52,24 @@ body:
       label: How to make it happen
       description: Where in the game, and what you did right before. Say if it happens every time.
       placeholder: |
-        1. Load the save at the Cathedral Ward lamp
-        2. Walk towards Old Yharnam
-        3. The game closes during the load
+        1. Free Battle, 2 vs 2, any stage
+        2. Fire a beam rifle at the start of the battle
+        3. The game freezes for a second
   - type: dropdown
     id: online
     attributes:
       label: Online
       options:
         - Offline
-        - Online, shadPS4's public server
-        - Online, my own server
+        - Two players on one PC
+        - Over the network, through gvnet-server
   - type: textarea
     id: log
     attributes:
       label: Log
       description: |
         In the launcher's **Log** page, **Export log…** and drag the file here (or **Copy** and paste it).
-        Do not paste your shadNet password or your trophy key anywhere in the issue.
+        Do not paste your trophy key anywhere in the issue.
       placeholder: Drag the exported log here.
     validations:
       required: true
@@ -78,7 +78,7 @@ body:
     attributes:
       label: Checks
       options:
-        - label: I use my own dump of Bloodborne with the 1.09 update.
+        - label: I use my own dump of GUNDAM VERSUS with the 1.13 update.
           required: true
         - label: I searched the existing issues for the same problem.
           required: true
