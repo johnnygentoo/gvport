@@ -1,50 +1,92 @@
-out/
-__pycache__/
-user/
+# gvport: what must never be committed or published.
+# The game, its update and DLC, saves, keys and anything made from a dump stay on the player's
+# own machine. When in doubt, keep a file out of the repository.
+
+# --- The game: dumps, updates, DLC and files taken from them -------------------------------
+/CUSA*/
+*-DLCs-*/
+eboot.bin
+param.sfo
+sce_sys/
+sce_module/
+*.pkg
+*.sprx
+*.prx
+*.self
+*.elf
+*.trp
+*.at9
+*.nus3audio
+*.nus3bank
 *.mp4
+*.dcx
+*.bdt
+*.bhd
+
+# --- Saves and the player's data ---------------------------------------------------------
+# user/ holds the saves, trophies, the shader cache and the DLC entitlements; user-p2/ is the
+# second player's copy (Two players on one PC).
+user/
+/user-*/
+savedata/
+*.sav
+*.save
+
+# --- Keys, secrets and local environment -------------------------------------------------
+# The launcher keeps the PS4 trophy key in ~/.config/gvport-launcher, outside the repository.
+.env
+.env.*
+*.local
+*.key
+*.pem
+secrets*
+# Settings of this checkout: the in-game menu's ini, patch and mod choices
 bbport.ini
-fsr4_shaders/
+patches.json
+mods.json
+/mods/
+
+# --- Build output and caches -------------------------------------------------------------
+out/
+/dist/
 pgo/
-*.png
-last_run.log
-dist/
+__pycache__/
+*.pyc
+/tools/gvnet-server/out/
 packaging/runtime-paths.nix
-fsr4_411/
 vkd3d-proton.cache
-tools/fsr4cap/*.exe
 perf.data
-# Local leftovers: patch backups, generated SPIR-V, analysis outputs, test saves and routes
-*.orig
 /*.spv
+*.orig
+
+# --- Upscaler assets fetched or built on the player's machine ----------------------------
+# FSR 4 v07 (tools/fetch_fsr4_assets.sh) and FSR 4.1.1 (built from the player's own AMD DLL):
+# never in the repository. AMD's DLLs neither.
+/fsr4_shaders/
+/fsr4_411/
+*.dll
+tools/fsr4cap/*.exe
+
+# --- Logs, captures and local notes ------------------------------------------------------
+/logs/
+last_run.log
+*.log
+*.png
+*.raw
+/message*.txt
+/*.zip
+*.7z
 /1060/
 /docs/savedata_route/
 /docs/route*.txt
 /docs/route_run.log
-/bloodborne_upscalers_*.md
-mods.json
-patches.json
-# The mods folder of runs from source (the launcher's default, DATA_DIR/mods)
-/mods/
-# Local: game logs, messages and archives from users, internal plans
-/logs/
-/message*.txt
-/*.zip
 /docs/ISSUE_ACTION_PLAN_*.md
-# AMD FidelityFX DLLs (FSR 4.1.1 is built from the user's own): never in the repository
-*.dll
-# Game files and dumps: never in the repository
-eboot.bin
-param.sfo
-*.pkg
-*.dcx
-*.7z
-/CUSA*/
-/fsr4_411
-/fsr4_shaders
+/bloodborne_upscalers_*.md
 
-# Godzilla dumps (never committed)
-/CUSA*/
-/fsr4_411
-/fsr4_shaders
+# --- Editors and assistants --------------------------------------------------------------
 /.claude/
-/tools/gvnet-server/out/
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

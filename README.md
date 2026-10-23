@@ -1,5 +1,7 @@
 # GUNDAM VERSUS for Linux (gvport)
 
+*By Johnnygentoo Studios: [Johnnygentoo](https://github.com/johnnygentoo) and Claude.*
+
 The PlayStation 4 version of *GUNDAM VERSUS* (2017, Bandai Namco Entertainment) running natively
 on Linux. The game's own x86-64 code runs directly on the CPU and its graphics are translated to
 Vulkan. It is not an emulator.
@@ -9,10 +11,21 @@ Linux fork of [bbport](https://github.com/deadinside28/bloodborne_pc), the nativ
 by deadinside28, by way of gzport, the GODZILLA port made from it. The runtime, the GPU
 translation, the upscalers and the launcher come from there; gvport points them at GUNDAM VERSUS.
 
-> **No game files are included.** You need your own decrypted dump of GUNDAM VERSUS, the North
-> American release `CUSA08790`, with update 1.13. This project is not affiliated with Bandai Namco
+> [!IMPORTANT]
+> **No game files are included, and none will ever be.** You must provide your own legal dump:
+> GUNDAM VERSUS (`CUSA08790`, North America) with update 1.13, dumped from your own PS4. This
+> repository and its releases contain no game executable, data, DLC, saves or console keys.
+> Don't ask for them or share them in issues. See [LEGAL.md](LEGAL.md).
+>
+> gvport is an unofficial fan project, not affiliated with or endorsed by Bandai Namco
 > Entertainment, SOTSU, SUNRISE or Sony Interactive Entertainment. GUNDAM VERSUS © SOTSU ·
 > SUNRISE.
+
+**Documentation:**
+- [BUILD.md](BUILD.md): building and preparing the game.
+- [LEGAL.md](LEGAL.md): the legal notice.
+- [CREDITS.md](CREDITS.md): everyone this is built on.
+- [BBPORT.md](BBPORT.md): the original Bloodborne port's technical README.
 
 ## Status
 
@@ -25,8 +38,9 @@ and a full play-through are not verified yet.
 - **PS4 Pro mode** (default; `BB_NEO=0`: a base PS4): the game renders its scene at 1920x1080 as
   on a PS4 Pro, instead of the base console's 1440x1080 stretched to the screen.
 - **Other output sizes** (720p, 1440p, 4K): the game renders natively at them, its scene and its
-  HUD (two sizes it sets at start, patched; `scripts/patches.py`). An RX 7800 XT holds 60 FPS in
-  battle at native 4K.
+  HUD (two sizes it sets at start, patched; `scripts/patches.py`). Native 4K on an RX 7800 XT
+  averages ~55 FPS in busy battles (about 1 frame in 20 is late, in effect-heavy moments); for a
+  steady 60 at 4K use FSR 3 Quality (below).
 - **Memory model:** "Auto" is the model of 0.3 on every GPU: with the new one each of the
   frame's compute-queue waits is a GPU round trip, and battles ran at ~30 FPS.
 - **Two players on one PC** (launcher: **Two players**; `BB_COOP=1`): GUNDAM VERSUS has no
@@ -39,9 +53,10 @@ and a full play-through are not verified yet.
   preset's scale and the upscaler fills the output where the game would scale its scene into the
   display buffer; the HUD stays the game's own, at the output size. Camera motion vectors from the
   game's camera (`gpu/games/gundam.cpp`), object motion from the object vectors setting. Measured
-  at 4K output on an RX 7800 XT in battle: FSR 3 Performance ~60 FPS (17.0 ms average), FSR 4
-  ~48 FPS (its model costs ~8 ms of GPU time a frame at 4K on that card). Preset and output
-  changes need a restart. Not tested yet: DLSS (NVIDIA), FSR 4.1.1, the Steam Deck.
+  at 4K output on an RX 7800 XT in battle: FSR 3 Quality ~59 FPS (16.9 ms average, 1 frame in
+  100 late), FSR 3 Performance ~59 FPS (17.0 ms), FSR 4 ~48 FPS (its model costs ~8 ms of GPU time a
+  frame at 4K on that card). Preset and output changes need a restart. Not tested yet: DLSS
+  (NVIDIA), FSR 4.1.1, the Steam Deck.
 
 ## What gvport inherits
 
@@ -80,7 +95,8 @@ python3 scripts/game_check.py CUSA08790-full
 
 ### 2. Build and run
 
-On Arch Linux (or CachyOS, Manjaro…):
+Full instructions, with Gentoo, Nix, build options, FSR 4, the AppImage and the tests, are in
+[BUILD.md](BUILD.md). In short, on Arch Linux (or CachyOS, Manjaro…):
 
 ```bash
 sudo pacman -S --needed base-devel cmake ninja python python-gobject gtk4 libadwaita sdl3 \
@@ -89,6 +105,7 @@ sudo pacman -S --needed base-devel cmake ninja python python-gobject gtk4 libadw
     freetype2 noto-fonts noto-fonts-cjk
 paru -S magic_enum vulkan-memory-allocator xbyak   # from the AUR
 
+git clone --recursive https://github.com/johnnygentoo/gvport.git && cd gvport
 bash build.sh
 launcher/bb-launcher.sh          # or launcher/install-desktop.sh for a menu entry
 ```
@@ -154,14 +171,19 @@ GODZILLA's layout until they are.
 
 ## Credits
 
+gvport is built on the work of the Bloodborne port's team. The full list, with every contributor
+and third-party license, is in [CREDITS.md](CREDITS.md).
+
 - [deadinside28/bloodborne_pc](https://github.com/deadinside28/bloodborne_pc): **bbport**, the
   native port everything here is built on, and almost all of the work behind it. Its README, with
   the technical details, is in [BBPORT.md](BBPORT.md).
 - [ayozetr/bloodborne_linux](https://github.com/ayozetr/bloodborne_linux): the Linux fork of bbport,
-  with its launcher, upscalers, memory models, trophies, PKG install, save import and AppImage, and
-  everyone thanked there.
-- **gzport**, the GODZILLA port gvport starts from: imports by NID, game profiles, Ngs2,
-  libSceFont and the dialogs of an offline console.
+  with its launcher, upscalers, memory models, trophies, PKG install, save import and AppImage.
+- The contributors to both: 0xCydral, Supermedo, obrikash, devilismyfriend, artemkaVG,
+  andrecabralgit, Mrsuss60, Jgamrot, Awakenchan, AwesomeObserver, IFreemz, FireBurn, yumlevi, bmy,
+  Wozzardman and everyone else in [CREDITS.md](CREDITS.md).
+- **gzport**, the GODZILLA port gvport starts from, also by Johnnygentoo Studios: imports by NID,
+  game profiles, Ngs2, libSceFont and the dialogs of an offline console.
 - [Supermedo/bloodborne_pc](https://github.com/Supermedo/bloodborne_pc): the Windows port, whose
   DLSS support and Add to Steam came to Linux in bloodborne_linux.
 - [shadPS4](https://github.com/shadps4-emu/shadPS4): the renderer and shader recompiler.
@@ -180,5 +202,6 @@ Full list of components and licenses: [BBPORT.md](BBPORT.md#credits-and-licenses
 
 ## License
 
-GNU GPL v2 or later ([LICENSE](LICENSE)). Third-party components keep their own licenses. NVIDIA
-and DLSS are trademarks of NVIDIA Corporation. GUNDAM VERSUS © SOTSU · SUNRISE.
+GNU GPL v2 or later ([LICENSE](LICENSE)), without warranty. Third-party components keep their own
+licenses ([CREDITS.md](CREDITS.md)). NVIDIA and DLSS are trademarks of NVIDIA Corporation.
+GUNDAM VERSUS © SOTSU · SUNRISE. See [LEGAL.md](LEGAL.md).
