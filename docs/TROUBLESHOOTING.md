@@ -1,29 +1,44 @@
 # Troubleshooting
 
 When asking for help, attach the log: in the launcher's **Log** page, **Export log…** saves it to
-a file and **Copy** puts it on the clipboard.
+a file and **Copy** puts it on the clipboard. Never attach game files or saves
+([LEGAL.md](../LEGAL.md)).
 
 ## The launcher rejects the game
 
-The launcher checks the game folder before starting. What it says, and what to do:
+The launcher checks the game folder before starting. gvport runs GUNDAM VERSUS (`CUSA08790`) with
+the **1.13 update** merged in ([BUILD.md](../BUILD.md#preparing-the-game)). What it says, and what
+to do:
 
 | Message | What to do |
 |---|---|
-| bbport needs the 1.09 update merged into the game folder | Copy everything from the dumped 1.09 update into the game folder, replacing files (`eboot.bin` and `sce_sys` too). |
-| param.sfo is from 1.09 but eboot.bin is not | Copy `eboot.bin` from the dumped 1.09 update over the old one. |
-| This eboot.bin has the 60 fps patch by Lance McDonald applied | Use a clean `eboot.bin` from the 1.09 update. bbport has its own 60 FPS. |
-| This is not a retail release of Bloodborne | Alpha tests and other games do not run. See [COMPATIBILITY.md](COMPATIBILITY.md). |
-| eboot.bin could not be read as a decrypted PS4 executable | Dump the game and the update again. |
-| The game files are damaged | The extraction tool broke compressed files (LibOrbisPkg PkgTool on .NET 6 or newer); the game would hang while loading. Extract the game and the update again with a fixed tool. |
+| The 1.13 update is needed | Copy everything from the dumped 1.13 update into the game folder, replacing files (`eboot.bin` and `sce_sys` too). |
+| eboot.bin is not from 1.13 | Copy `eboot.bin` from the dumped 1.13 update over the old one. |
+| This is not GUNDAM VERSUS | Choose the folder of GUNDAM VERSUS, the one with `eboot.bin`. Other games do not run. |
+| eboot.bin cannot be read as a decrypted PS4 executable | Dump the game and the update again. |
+| The game folder is missing `archives`, `sce_discmap.plt` or `img` | The extraction is incomplete: extract the game and the update again. |
 
-## The game shows *New Game* instead of my save
+`python3 scripts/game_check.py <game folder>` runs the same check from a terminal.
+
+## The DLC characters are missing
+
+Choose the folder with the add-ons' `.pkg` files as the launcher's **DLC folder**. GUNDAM VERSUS'
+add-ons are unlock keys; their data is already in the 1.13 update. The log says how many add-ons
+were found at each start.
+
+## Where are my saves?
 
 Saves live in the data directory, and each way of running the port has its own:
 
-- The AppImage: `~/.local/share/bbport/user/savedata/1/<title ID>/`.
-- From the repository (`run.sh`): `user/savedata/1/<title ID>/` in the repository.
+- The AppImage: `~/.local/share/gvport/user/savedata/1/CUSA08790/`.
+- From the repository (`run.sh`): `user/savedata/1/CUSA08790/` in the repository.
 
 To move a save, close the game, back up both folders, and copy the `savedata` folder over.
+
+## Battles stutter at 4K
+
+Native 4K is heavy for the GPU work the game's effects wait on. For a steady 60 FPS at 4K, choose
+**FSR 3** with the **Quality** preset in the launcher: it renders below 4K and upscales.
 
 ## DLSS is "not supported by this GPU"
 
@@ -31,32 +46,20 @@ The log says why, on a line starting with `DLSS:`.
 
 - DLSS needs a GeForce RTX (20 series or newer) and NVIDIA's own driver; it does not work with
   NVK.
-- The 0.4-linux.1 AppImage ships a modified copy of NVIDIA's DLSS library, which the driver
-  refuses (`Feature requirement query failed: 0xbad00012`): update to 0.5-linux.1 or newer.
-- From the repository, DLSS needs `bash tools/build_dlss.sh` once after `build.sh`.
+- From the repository, DLSS needs a build with `DLSS_SDK_ROOT` ([BUILD.md](../BUILD.md#build-options)).
 - If the log says `Device creation with DLSS extensions failed`, NVIDIA's CUDA/UVM
   module is missing: the game then uses FSR 3.1. Load it with `sudo modprobe nvidia_uvm` (the
   `nvidia-modprobe` package loads it when needed); with Secure Boot, a module signing key that
   is not enrolled stops it (`Key was rejected by service`).
 
-## Spanish shows the Latin American text (or the other way round)
+## Network play does not find the room
 
-The game picks a language's regional text by the dump's region. Choose it in **Settings → Game
-region**: *Europe* for Spanish from Spain, *The Americas* for Latin American Spanish.
+- Every game must use the same matching server: **host** on one PC, **join** with its address
+  (`<server>:31323`) on the others ([README](../README.md#over-the-network)).
+- A firewall on the server must let TCP 31323 and UDP 31324 in; each game uses UDP 3658.
+- Both players pick the same **Room type** (1 on 1 for two players).
 
-## The game crashes after playing a while, on a card with little VRAM
+## A crash
 
-On a 6 GB card the texture cache can run out of video memory: the log then repeats
-`Texture cache: memory pressure, ... (critical ...)`. Lower what uses VRAM: a 60 FPS limit,
-a lower output resolution, lower **Model detail** in the game's *Display* settings, and close
-other programs that use the GPU (browsers, video players, other games).
-
-## Summons never connect
-
-Run **Test the connection** in the **Online** page. A red line for the shadNet server's UDP means
-the server never learns your address, and no summon can connect: shadPS4's public server does
-this. Use your own server: [SERVER.md](SERVER.md).
-
-## Other online problems
-
-See [ONLINE.md](ONLINE.md): the account, the bells, the ports and the log lines of a summon.
+Turn on the launcher's *Save the log and statistics to a file* and attach the log from `logs/`.
+To catch a crash with a debugger, see [DEBUGGING.md](DEBUGGING.md).

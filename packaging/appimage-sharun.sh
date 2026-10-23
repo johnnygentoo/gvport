@@ -41,19 +41,9 @@ chmod +x "$quick"
 # share/bbport/{run.sh,scripts,...,bin/bb-probe}; bin/ is the AppImage's own bin directory.
 d=$appdir/share/bbport
 cp run.sh "$d/"
-cp -r scripts patches fsr4_shaders launcher assets "$d/"
-# The keyboard's button prompts (scripts/menu_prompts.py) are drawn with Pillow in this font.
-font=$(fc-match -f '%{file}' 'DejaVu Sans:bold')
-[[ $font == */DejaVuSans-Bold.ttf ]] || { echo 'DejaVu Sans Bold not found (ttf-dejavu).' >&2; exit 1; }
-install -Dm644 "$font" "$d/fonts/DejaVuSans-Bold.ttf"
+cp -r scripts patches fsr4_shaders launcher "$d/"
 mkdir -p "$d/tools"
 cp -r tools/fsr4cap "$d/tools/"
-# bbbridge (GPL-3.0-or-later): its licence and notices next to the port; its source is bbbridge/.
-if [[ -x out/bbbridge/bbbridge-cli ]]; then
-    install -Dm644 bbbridge/LICENSE "$d/bbbridge/LICENSE"
-    install -Dm644 bbbridge/README.md "$d/bbbridge/README.md"
-    install -Dm644 bbbridge/THIRD_PARTY_NOTICES.txt "$d/bbbridge/THIRD_PARTY_NOTICES.txt"
-fi
 find "$d" -name __pycache__ -type d -prune -exec rm -rf {} +
 ln -s ../../bin "$d/bin"
 
@@ -66,7 +56,6 @@ export PYTHON="$APPDIR/bin/python3"
 export BB_VULKANINFO="$APPDIR/bin/vulkaninfo"
 export BB_DLSS_DIR="$APPDIR/share/bbport/dlss"
 export BB_NET_MODULE="$APPDIR/share/bbport/net/libbbnet.so"
-[ -x "$APPDIR/bin/bbbridge-cli" ] && export BB_BRIDGE_CLI="$APPDIR/bin/bbbridge-cli"
 [ -x "$APPDIR/bin/pkgextract" ] && export BB_PKGEXTRACT="$APPDIR/bin/pkgextract"
 export BB_DATA_DIR="${BB_DATA_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/gvport}"
 mkdir -p "$BB_DATA_DIR"
@@ -94,9 +83,8 @@ if command -v rsvg-convert >/dev/null; then
 fi
 
 # GTK, libadwaita and their typelibs are loaded by PyGObject at run time (not linked): named here.
-# So are Python's ssl and hashlib modules, which quick-sharun leaves out by default: the launcher's
-# connection test and scripts/online.py talk HTTPS to the co-op servers. Pillow (in site-packages,
-# copied with Python) is named too, for the libraries its modules link (keyboard prompts).
+# So are Python's ssl and hashlib modules, which quick-sharun leaves out by default. Pillow (in
+# site-packages, copied with Python) is named too, for the libraries its modules link (trophy icons).
 pydyn=$(python3 -c 'import sysconfig; print(sysconfig.get_path("platstdlib"))')/lib-dynload
 pil=$(python3 -c 'import os, PIL; print(os.path.dirname(PIL.__file__))')
 cd "$work"
@@ -112,13 +100,10 @@ export OUTPUT_APPIMAGE=0
 net=$(ls "$root/out/gpu/libbbnet.so" 2>/dev/null || true)
 # Its matching server for two players on one PC (run.sh BB_COOP: bin/gvnet-server).
 gvnet=$(ls "$root/out/gpu/gvnet-server" 2>/dev/null || true)
-# The Hunter's Dream's bridge (bbbridge/, GPL-3.0-or-later), when the build has it: with libcurl and
-# OpenSSL, named here so that they come along.
-bridge=$(ls "$root/out/bbbridge/bbbridge-cli" 2>/dev/null || true)
 # Install from PKG (scripts/pkg_install.py): pkgextract (Unlicense), when the build has it.
 pkgextract=$(ls "$root/out/pkgextract/bin/pkgextract" 2>/dev/null || true)
 "$quick" \
-    "$root/out/bb-probe" "$root/out/bb-gpu-capabilities" ${net:+"$net"} ${gvnet:+"$gvnet"} ${bridge:+"$bridge"} ${pkgextract:+"$pkgextract"} \
+    "$root/out/bb-probe" "$root/out/bb-gpu-capabilities" ${net:+"$net"} ${gvnet:+"$gvnet"} ${pkgextract:+"$pkgextract"} \
     "$(command -v python3)" "$(command -v vulkaninfo)" \
     /usr/lib/libgtk-4.so* /usr/lib/libadwaita-1.so* /usr/lib/libgirepository-*.so* \
     "$pydyn"/_ssl.*.so "$pydyn"/_hashlib.*.so "$pil"/_imaging.*.so "$pil"/_imagingft.*.so

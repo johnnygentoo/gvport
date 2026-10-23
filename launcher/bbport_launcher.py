@@ -374,10 +374,6 @@ def game_environment(s):
         env["BB_USER_DIR"] = s["user_dir"]
     if s.get("dlc_dir"):
         env["BB_DLC_DIR"] = str(Path(s["dlc_dir"]).expanduser())
-    # Loose-file mods (scripts/mods.py) replace files under Bloodborne's dvdroot_ps4; GUNDAM VERSUS'
-    # files are .pac archives at the folder's root, so none are laid over the game. The menu's
-    # button prompts (scripts/menu_prompts.py) edit Bloodborne's menu files: run.sh skips them.
-    env["BB_MODS_ENABLED"] = "0"
     env["BB_PATCHES_DIR"] = str(patches_dir(s))
     env["BB_PATCHES_CONFIG"] = str(DATA_DIR / "patches.json")
     env["BB_LANGUAGE"] = s["language"] or str(system_game_language())

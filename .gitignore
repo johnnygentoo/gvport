@@ -90,3 +90,30 @@ last_run.log
 *.swp
 *~
 .DS_Store
+
+# The Bloodborne port's own files, kept in local checkouts only (they stay in the git history,
+# credited in CREDITS.md): its docs and changelogs, and the Bloodborne-only features gvport does
+# not use (co-op bridge, shadNet/The Hunter's Dream online, button prompts, loose-file mods).
+/BBPORT.md
+/BBPORT.ru.md
+/bbbridge/
+/assets/
+/docs/history/
+/docs/CHANGES_*.md
+/docs/*.ru.md
+/docs/COMPATIBILITY.md
+/docs/MODS.md
+/docs/MODS.en.md
+/docs/ONLINE.md
+/docs/RELEASE_TEMPLATE.md
+/docs/ROADMAP.md
+/docs/SERVER.md
+/docs/TEMPORAL_REVIEW_*.md
+/docs/motion_vectors.md
+/docs/DEPTH_ADAPTIVE_TAA.md
+/scripts/menu_prompts.py
+/scripts/menu_textures.py
+/scripts/mods.py
+/scripts/online.py
+/tools/extract_prompt_assets.py
+/tools/shadnet-server/

@@ -64,18 +64,7 @@ if [[ -z ${PYTHON:-} ]]; then echo 'Install Python 3 or set PYTHON.' >&2; exit 1
 # with the 1.13 update) in this directory.
 game=${BB_GAME_DIR:-CUSA08790-full}
 if [[ ! -f $game/eboot.bin ]]; then echo "No eboot.bin in $game (set BB_GAME_DIR)." >&2; exit 1; fi
-original_game=$game
-# Bloodborne's button prompts and gestures menu (scripts/menu_prompts.py) are edits of its
-# dvdroot_ps4/menu files; GUNDAM VERSUS has none of them, so nothing is laid under the mods.
-ui_mods=
-game=$("$PYTHON" scripts/mods.py "$game" --out "$out" \
-    --mods-dir "${BB_MODS_DIR:-$data/mods}" --config "${BB_MODS_CONFIG:-$data/mods.json}" \
-    --enabled "${BB_MODS_ENABLED:-1}" --ui-mods "$ui_mods")
-# A private merged view lasts for this launch, including restarts. Cleanup only our own view.
-if [[ $game != "$(realpath "$original_game")" ]]; then
-    mod_game=$game
-    trap '"$PYTHON" -c '\''import shutil,sys; shutil.rmtree(sys.argv[1])'\'' "$mod_game"' EXIT
-fi
+game=$(realpath "$game")
 "$PYTHON" scripts/prepare.py "$game" --out "$out"
 # Couch versus (BB_COOP=1, launcher: "Two players"): two games, one per player and controller,
 # play each other through Player Match on a server on this PC (GUNDAM VERSUS has no local

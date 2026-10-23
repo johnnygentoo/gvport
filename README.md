@@ -25,7 +25,7 @@ translation, the upscalers and the launcher come from there; gvport points them 
 - [BUILD.md](BUILD.md): building and preparing the game.
 - [LEGAL.md](LEGAL.md): the legal notice.
 - [CREDITS.md](CREDITS.md): everyone this is built on.
-- [BBPORT.md](BBPORT.md): the original Bloodborne port's technical README.
+- [docs/](docs/README.md): troubleshooting, debugging and design notes.
 
 ## Status
 
@@ -101,7 +101,7 @@ Full instructions, with Gentoo, Nix, build options, FSR 4, the AppImage and the 
 ```bash
 sudo pacman -S --needed base-devel cmake ninja python python-gobject gtk4 libadwaita sdl3 \
     vulkan-headers vulkan-icd-loader glslang spirv-headers spirv-cross ffmpeg boost fmt \
-    robin-map xxhash zydis miniz protobuf nlohmann-json openssl miniupnpc python-pillow ttf-dejavu \
+    robin-map xxhash zydis miniz protobuf nlohmann-json openssl miniupnpc python-pillow \
     freetype2 noto-fonts noto-fonts-cjk
 paru -S magic_enum vulkan-memory-allocator xbyak   # from the AUR
 
@@ -175,8 +175,8 @@ gvport is built on the work of the Bloodborne port's team. The full list, with e
 and third-party license, is in [CREDITS.md](CREDITS.md).
 
 - [deadinside28/bloodborne_pc](https://github.com/deadinside28/bloodborne_pc): **bbport**, the
-  native port everything here is built on, and almost all of the work behind it. Its README, with
-  the technical details, is in [BBPORT.md](BBPORT.md).
+  native port everything here is built on, and almost all of the work behind it. Its README has
+  the technical details.
 - [ayozetr/bloodborne_linux](https://github.com/ayozetr/bloodborne_linux): the Linux fork of bbport,
   with its launcher, upscalers, memory models, trophies, PKG install, save import and AppImage.
 - The contributors to both: 0xCydral, Supermedo, obrikash, devilismyfriend, artemkaVG,
@@ -198,7 +198,7 @@ and third-party license, is in [CREDITS.md](CREDITS.md).
 - [ps4-pkg-extractor](https://github.com/paulomanrique/ps4-pkg-extractor) by paulomanrique
   (Unlicense): the launcher's *Install from PKG*.
 
-Full list of components and licenses: [BBPORT.md](BBPORT.md#credits-and-licenses).
+Full list of components and licenses: [CREDITS.md](CREDITS.md#third-party-software).
 
 ## License
 

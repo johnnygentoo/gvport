@@ -19,7 +19,7 @@ The git history is kept, so every commit keeps its author.
   - the HLE runtime that replaces the PS4 system libraries;
   - the shadPS4-derived Vulkan renderer and its performance work.
 
-  Its original README, with the technical details, is kept as [BBPORT.md](BBPORT.md).
+  Its README has the technical details.
 - **[ayozetr](https://github.com/ayozetr)**, author of
   [bloodborne_linux](https://github.com/ayozetr/bloodborne_linux), the Linux fork gvport comes
   from:
@@ -81,15 +81,18 @@ From the Bloodborne launcher's About → Thanks page, for work brought into the 
 - [Monochrome0907](https://github.com/Monochrome0907): found which effects hung loading screens
   on NVIDIA.
 
-## Mods and patches (used by the Bloodborne profile)
+## Bloodborne mods and tools
 
-- **Dommo**: the Xbox and Switch button prompts and the gestures menu in `assets/menu_prompts`,
-  from [Bloodborne mod 30 on Nexus Mods](https://www.nexusmods.com/bloodborne/mods/30), reused
-  with credit as its permissions allow.
+Part of the Bloodborne port, and so of this repository's history; gvport's current files do not
+use them.
+
+- **Dommo**: the Xbox and Switch button prompts and the gestures menu, from
+  [Bloodborne mod 30 on Nexus Mods](https://www.nexusmods.com/bloodborne/mods/30), reused with
+  credit as its permissions allow.
 - **Kyo, Lance McDonald, auser1337, illusion, emoose** and other community members: the
   Bloodborne game patches (`patches/Bloodborne.xml` in bbport).
-- **MaskZeus**: bbbridge (`bbbridge/`, GPL-3.0-or-later), on the protocol of droogie's bbhost and
-  The Hunter's Dream.
+- **MaskZeus**: bbbridge (GPL-3.0-or-later), the co-op bridge on the protocol of droogie's bbhost
+  and The Hunter's Dream.
 
 ## GODZILLA and GUNDAM VERSUS (gzport, gvport)
 

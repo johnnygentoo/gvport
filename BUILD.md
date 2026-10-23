@@ -18,10 +18,9 @@ You also need your own dump of the game: see [Preparing the game](#preparing-the
 - **Libraries:** Vulkan headers and loader, SDL3, FreeType, FFmpeg, Boost, fmt, magic_enum,
   robin-map, xxHash, Vulkan Memory Allocator, glslang, SPIRV-Headers, xbyak, Zydis, miniz.
 - **Online play** (`gpu/bbnet`): protobuf, nlohmann-json, OpenSSL, zlib, miniupnpc.
-- **Launcher:** PyGObject, GTK 4, libadwaita, Pillow and the DejaVu fonts.
+- **Launcher:** PyGObject, GTK 4, libadwaita and Pillow.
 - **Optional:**
   - `cargo` builds the launcher's *Install from PKG* tool.
-  - libcurl builds the Bloodborne-only co-op bridge.
   - `spirv-cross` on your `PATH` is used for the FSR 4 shaders.
 
 ### Arch Linux (and CachyOS, Manjaro, EndeavourOS)
@@ -30,7 +29,7 @@ You also need your own dump of the game: see [Preparing the game](#preparing-the
 sudo pacman -S --needed base-devel git cmake ninja python python-gobject gtk4 libadwaita sdl3 \
     vulkan-headers vulkan-icd-loader glslang spirv-headers spirv-cross ffmpeg boost fmt \
     robin-map xxhash zydis miniz protobuf nlohmann-json openssl miniupnpc python-pillow \
-    ttf-dejavu freetype2 noto-fonts noto-fonts-cjk
+    freetype2 noto-fonts noto-fonts-cjk
 paru -S magic_enum vulkan-memory-allocator xbyak    # from the AUR (or yay)
 ```
 
@@ -42,7 +41,7 @@ emerge --ask --noreplace dev-build/cmake app-alternatives/ninja dev-util/pkgconf
     media-video/ffmpeg dev-libs/boost dev-libs/libfmt dev-cpp/magic_enum dev-cpp/robin-map \
     dev-libs/xxhash dev-util/glslang dev-util/spirv-headers dev-libs/xbyak dev-libs/zydis \
     dev-libs/miniz dev-libs/protobuf dev-cpp/nlohmann_json dev-libs/openssl net-libs/miniupnpc \
-    dev-python/pygobject gui-libs/gtk gui-libs/libadwaita dev-python/pillow media-fonts/dejavu
+    dev-python/pygobject gui-libs/gtk gui-libs/libadwaita dev-python/pillow
 # Vulkan Memory Allocator is in the GURU overlay:
 eselect repository enable guru && emaint sync -r guru
 emerge --ask media-libs/VulkanMemoryAllocator
