@@ -40,11 +40,12 @@ chmod +x "$quick"
 # The port as run.sh expects it with BB_PREBUILT=1 (same layout as packaging/default.nix):
 # share/bbport/{run.sh,scripts,...,bin/bb-probe}; bin/ is the AppImage's own bin directory.
 d=$appdir/share/bbport
-cp run.sh "$d/"
-cp -r scripts patches fsr4_shaders launcher "$d/"
-mkdir -p "$d/tools"
-cp -r tools/fsr4cap "$d/tools/"
-find "$d" -name __pycache__ -type d -prune -exec rm -rf {} +
+# Only the repository's own files (git ls-files): what a checkout keeps beside them and git
+# ignores (saves, settings, local leftovers) never goes in. The licence, legal notice and credits
+# travel with the port; the FSR 4 assets (fetched above, ignored by git) are added by name.
+git ls-files -z -- run.sh scripts patches launcher tools/fsr4cap LICENSE LEGAL.md CREDITS.md |
+    xargs -0 cp --parents -t "$d"
+cp -r fsr4_shaders "$d/"
 ln -s ../../bin "$d/bin"
 
 # The AppImage's main program: the launcher (or, with --play, the game alone).
