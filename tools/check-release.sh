@@ -37,7 +37,14 @@ if (( $# == 0 )); then
 else
     for target in "$@"; do
         if [[ -d $target ]]; then
-            check_paths "$target" < <(cd "$target" && find . -mindepth 1 | sed 's|^\./||')
+            # An AppImage's own .env (sharun's runtime variables, each a path under SHARUN_DIR) is
+            # part of the package; any other .env is not.
+            sharun_env=
+            if [[ -f $target/.env ]] && ! grep -qvE '^[A-Z_]+=[^=]*\$\{SHARUN_DIR\}' "$target/.env"; then
+                sharun_env=.env
+            fi
+            check_paths "$target" < <(cd "$target" && find . -mindepth 1 | sed 's|^\./||' |
+                grep -vxF "${sharun_env:-/}")
         elif [[ -f $target && $target == *.AppImage ]]; then
             command -v unsquashfs >/dev/null || { report "unsquashfs (squashfs-tools) is needed to list $target"; continue; }
             # The AppImage's squashfs starts at the end of its ELF runtime.
